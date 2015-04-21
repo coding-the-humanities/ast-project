@@ -49,17 +49,26 @@ class Board extends React.Component {
 class Game extends React.Component {
   constructor(props){
     super(props);
-    let createBoard = R.mapIndexed((value, id) => { return { id, value }});
-    let board = createBoard(R.times(randomizer, this.props.gridSize));
+    let board = this.createBoard(this.props.gridSize);
     this.state = {
-      board: board
+      board: board,
+      gridSize: this.props.gridSize
     }
   }
 
-  toggleState(index){
-    let board = this.state.board;
-    board[index] = !board[index];
-    this.setState({board})
+  createBoard(gridSize){
+    let boardSize = gridSize * gridSize;
+    let boardMaker = R.mapIndexed((value, id) => { return { id, value }});
+    return boardMaker(R.times(randomizer, boardSize));
+  }
+
+  componentDidMount(){
+    let gridSize = this.state.gridSize;
+    setInterval(()=>{
+      gridSize = gridSize + 1;
+      let board = this.createBoard(gridSize);
+      return this.setState({ board, gridSize });
+    }, 1000);
   }
 
   render(){
