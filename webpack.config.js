@@ -15,6 +15,7 @@ var config = {
     ],
     vendor: [
       'react',
+      'ramda'
     ]
   },
   output: {
