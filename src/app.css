@@ -1,6 +1,6 @@
 .game {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 98vh;
   height: 98vh;
 }
@@ -9,6 +9,8 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: 50%;
+  margin: 10px;
 }
 
 .row {
@@ -19,11 +21,21 @@
 
 .cell {
   flex: 1;
-  background-color: white;
-  border: 1px solid black;
+  background-color: blue;
+  margin: 1px;
+}
+
+.board-control .cell.cell-is-on {
+  background: url(http://upload.wikimedia.org/wikipedia/commons/4/48/Herardic_ship.svg);
+  background-size: 100% 100%;
+  background-color: blue;
 }
 
 .cell:hover{
   background-color: gray;
 }
+
+button {
+  border: none;
+} 
 

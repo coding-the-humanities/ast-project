@@ -1,10 +1,18 @@
 import React from 'react';
 import R from 'ramda';
-import _ from 'lodash';
 
-import Board from './Board.jsx';
+import GameBoard from './GameBoard.jsx';
+import ControlBoard from './ControlBoard.jsx';
 
 class Game extends React.Component {
+
+  toggleState(index){
+    let board = this.state.board;
+    let cell = board[index].value === 'on' ? 'off' : 'on';
+    board[index].value = cell;
+    this.setState({board});
+  }
+
   constructor(props){
     super(props);
     let board = this.createBoard(this.props.gridSize);
@@ -24,7 +32,8 @@ class Game extends React.Component {
     let board = this.state.board;
     return (
       <section className="game">
-        <Board board={ board }></Board>
+        <ControlBoard toggleState={ this.toggleState.bind(this) } board={ board }></ControlBoard>
+        <GameBoard board={ board }></GameBoard>
       </section>
     )
   }
@@ -35,7 +44,7 @@ Game.defaultProps = {
 }
 
 function randomizer(){
-  let values = [0, 1];
+  let values = ['on', 'off'];
   return _.sample(values);
 }
 

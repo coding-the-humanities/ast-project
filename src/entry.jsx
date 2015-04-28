@@ -3,4 +3,4 @@ import './app.css';
 
 import Game from './components/Game.jsx';
 
-React.render(<Game gridSize={1}/>, document.body);
+React.render(<Game gridSize={4}/>, document.body);

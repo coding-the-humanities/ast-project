@@ -3,13 +3,12 @@ import R from 'ramda';
 import _ from 'lodash';
 
 class GameBoardCell extends React.Component {
-  handleClick(cellState){
-    let message = cellState ? "hit" : "miss";
-  }
 
   render(){
+    let cellState = this.props.state;
+    let classes = ['cell', `cell-is-${cellState.value}`].join(' ');
     return (
-      <button className="cell" onClick={this.handleClick.bind(this, this.props.state) }></button>
+      <button className={classes} onClick={this.props.handleClick.bind(this, cellState) }></button>
     )
   }
 }

@@ -2,17 +2,23 @@ import React from 'react';
 import R from 'ramda';
 import _ from 'lodash';
 
-import GameBoardCell from './Cell.jsx';
+import Cell from './Cell.jsx';
 
-class Board extends React.Component {
-  render(){
-    let board = this.props.board;
+class ControlBoard extends React.Component {
+
+  handleClick(index){
+    this.props.toggleState(index);
+  }
+
+  createGrid(board){
     let boardSize = board.length;
     let boardSide = Math.sqrt(boardSize);
     let placeholderRows = R.times(R.identity, boardSide);
 
     let createRow = R.map((cell) => {
-      return <GameBoardCell key={ cell.id } index={ cell.index } state={ cell.value }/>;
+      return <Cell key={ cell.id } 
+                       handleClick={ this.handleClick.bind(this, cell.id) }
+                       state={ cell }/>;
     });
 
     let grid = R.map((rowIndex) => {
@@ -27,12 +33,18 @@ class Board extends React.Component {
       );
     }, placeholderRows)
 
+    return grid;
+  }
+
+  render(){
+    let board = this.props.board;
+    let grid = this.createGrid(board);
     return (
-      <section className="board">
+      <section className="board board-control">
         { grid }
       </section>
     )
   }
 }
 
-export default Board;
+export default ControlBoard;
