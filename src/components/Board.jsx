@@ -1,13 +1,11 @@
-import React from 'react';
 import R from 'ramda';
-import _ from 'lodash';
-
+import React from 'react';
 import Cell from './Cell.jsx';
 
-class ControlBoard extends React.Component {
+class Board extends React.Component {
 
-  handleClick(index){
-    this.props.toggleState(index);
+  handleClick(cell){
+    this.props.handleClick(cell.id);
   }
 
   createGrid(board){
@@ -17,7 +15,8 @@ class ControlBoard extends React.Component {
 
     let createRow = R.map((cell) => {
       return <Cell key={ cell.id } 
-                       handleClick={ this.handleClick.bind(this, cell.id) }
+                       handleClick={ this.handleClick.bind(this) }
+                       index={ cell.index } 
                        state={ cell }/>;
     });
 
@@ -39,12 +38,13 @@ class ControlBoard extends React.Component {
   render(){
     let board = this.props.board;
     let grid = this.createGrid(board);
+    let classes = ['board', `board-${ this.props.boardType}`].join(' ');
     return (
-      <section className="board board-control">
+      <section className={classes}>
         { grid }
       </section>
     )
   }
 }
 
-export default ControlBoard;
+export default Board;

@@ -1,15 +1,24 @@
 import React from 'react';
 import R from 'ramda';
 
-import GameBoard from './GameBoard.jsx';
-import ControlBoard from './ControlBoard.jsx';
+import Board from './Board.jsx';
 
-class Game extends React.Component {
+class Game {
+}
+
+class Interface extends React.Component {
 
   toggleState(index){
     let board = this.state.board;
     let cell = board[index].value === 'on' ? 'off' : 'on';
     board[index].value = cell;
+    this.setState({board});
+  }
+
+  checkCell(index){
+    let board = this.state.board;
+    let message = board[index].value === 'on' ? 'hit' : 'miss';
+    board[index].checked = true;
     this.setState({board});
   }
 
@@ -24,7 +33,9 @@ class Game extends React.Component {
 
   createBoard(gridSize){
     let boardSize = gridSize * gridSize;
-    let boardMaker = R.mapIndexed((value, id) => { return { id, value }});
+    let boardMaker = R.mapIndexed(({value, checked}, id) => { 
+      return { id, value, checked }
+    });
     return boardMaker(R.times(randomizer, boardSize));
   }
 
@@ -32,20 +43,22 @@ class Game extends React.Component {
     let board = this.state.board;
     return (
       <section className="game">
-        <ControlBoard toggleState={ this.toggleState.bind(this) } board={ board }></ControlBoard>
-        <GameBoard board={ board }></GameBoard>
+        <Board boardType="control" handleClick={ this.toggleState.bind(this) } board={ board }></Board>
+        <Board boardType="game" handleClick={ this.checkCell.bind(this) } board={ board }></Board>
       </section>
     )
   }
 }
 
-Game.defaultProps = {
+Interface.defaultProps = {
   gridSize: 4
 }
 
 function randomizer(){
-  let values = ['on', 'off'];
-  return _.sample(values);
+  return {
+    value: 'off', 
+    checked: false
+  }
 }
 
-export default Game;
+export default Interface;
